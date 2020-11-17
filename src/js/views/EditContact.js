@@ -1,13 +1,17 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
+import PropTypes from "prop-types";
 
-export const AddContact = () => {
-	const { actions } = useContext(Context);
-	const [fullname, setFullname] = useState("");
-	const [phone, setPhone] = useState("");
-	const [email, setEmail] = useState("");
-	const [address, setAddress] = useState("");
+export const EditContact = props => {
+	const { store, actions } = useContext(Context);
+	let short = store.contactList[props.match.params.index];
+	const [id, setId] = useState(short.id);
+	const [phone, setPhone] = useState(short.phone);
+	const [fullname, setFullname] = useState(short.full_name);
+	const [email, setEmail] = useState(short.email);
+	const [address, setAddress] = useState(short.address);
+
 	return (
 		<div className="container">
 			<div>
@@ -19,6 +23,7 @@ export const AddContact = () => {
 							type="text"
 							className="form-control"
 							placeholder="Full Name"
+							defaultValue={fullname}
 							onChange={e => setFullname(e.target.value)}
 						/>
 					</div>
@@ -28,6 +33,7 @@ export const AddContact = () => {
 							type="email"
 							className="form-control"
 							placeholder="Enter email"
+							defaultValue={email}
 							onChange={e => setEmail(e.target.value)}
 						/>
 					</div>
@@ -37,6 +43,7 @@ export const AddContact = () => {
 							type="phone"
 							className="form-control"
 							placeholder="Enter phone"
+							defaultValue={phone}
 							onChange={e => setPhone(e.target.value)}
 						/>
 					</div>
@@ -46,6 +53,7 @@ export const AddContact = () => {
 							type="text"
 							className="form-control"
 							placeholder="Enter address"
+							defaultValue={address}
 							onChange={e => setAddress(e.target.value)}
 						/>
 					</div>
@@ -54,7 +62,7 @@ export const AddContact = () => {
 							type="button"
 							className="btn btn-primary form-control"
 							onClick={() => {
-								actions.addContact(fullname, phone, email, address);
+								actions.updateContact(id, fullname, phone, email, address);
 							}}>
 							save
 						</button>
@@ -66,4 +74,7 @@ export const AddContact = () => {
 			</div>
 		</div>
 	);
+};
+EditContact.propTypes = {
+	match: PropTypes.object
 };
