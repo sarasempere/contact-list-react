@@ -29,15 +29,8 @@ export const ContactCard = props => {
 								</div>
 								<div className="col-12 col-sm-6 col-md-9 text-center text-sm-left">
 									<div className=" float-right">
-										<Link to={`/edit/${index}`}>
-											<button
-												className="btn"
-												onClick={() => {
-													actions.updateContact(item.id);
-													console.log(item.id);
-												}}>
-												<i className="fas fa-pencil-alt mr-3" />
-											</button>
+										<Link to={{ pathname: "/edit", state: { id: item.id } }} className="btn">
+											<i className="fas fa-pencil-alt mr-3" />
 										</Link>
 										<button
 											className="btn"

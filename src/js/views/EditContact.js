@@ -1,29 +1,29 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import PropTypes from "prop-types";
 
 export const EditContact = props => {
+	console.log(props.location.state.id);
+	const id_ = props.location.state.id;
 	const { store, actions } = useContext(Context);
-	let short = store.contactList[props.match.params.index];
-	const [id, setId] = useState(short.id);
-	const [phone, setPhone] = useState(short.phone);
-	const [fullname, setFullname] = useState(short.full_name);
-	const [email, setEmail] = useState(short.email);
-	const [address, setAddress] = useState(short.address);
-
+	const filter = store.contactList.filter(i => i.id === id_);
+	console.log(filter);
+	const [fullname, setFullname] = useState("");
+	const [phone, setPhone] = useState("");
+	const [email, setEmail] = useState("");
+	const [address, setAddress] = useState("");
 	return (
 		<div className="container">
 			<div>
-				<h1 className="text-center mt-5">Add a new contact</h1>
+				<h1 className="text-center mt-5">Edit a contact</h1>
 				<form>
 					<div className="form-group">
 						<label>Full Name</label>
 						<input
 							type="text"
 							className="form-control"
-							placeholder="Full Name"
-							defaultValue={fullname}
+							placeholder={filter[0].full_name}
 							onChange={e => setFullname(e.target.value)}
 						/>
 					</div>
@@ -32,8 +32,7 @@ export const EditContact = props => {
 						<input
 							type="email"
 							className="form-control"
-							placeholder="Enter email"
-							defaultValue={email}
+							placeholder={filter[0].email}
 							onChange={e => setEmail(e.target.value)}
 						/>
 					</div>
@@ -42,8 +41,7 @@ export const EditContact = props => {
 						<input
 							type="phone"
 							className="form-control"
-							placeholder="Enter phone"
-							defaultValue={phone}
+							placeholder={filter[0].phone}
 							onChange={e => setPhone(e.target.value)}
 						/>
 					</div>
@@ -52,8 +50,7 @@ export const EditContact = props => {
 						<input
 							type="text"
 							className="form-control"
-							placeholder="Enter address"
-							defaultValue={address}
+							placeholder={filter[0].address}
 							onChange={e => setAddress(e.target.value)}
 						/>
 					</div>
@@ -62,7 +59,7 @@ export const EditContact = props => {
 							type="button"
 							className="btn btn-primary form-control"
 							onClick={() => {
-								actions.updateContact(id, fullname, phone, email, address);
+								actions.updateContact(id_, fullname, phone, email, address);
 							}}>
 							save
 						</button>
@@ -75,6 +72,11 @@ export const EditContact = props => {
 		</div>
 	);
 };
+
 EditContact.propTypes = {
-	match: PropTypes.object
+	location: PropTypes.object
+};
+
+EditContact.defaultProps = {
+	id: ""
 };

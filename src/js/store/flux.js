@@ -59,6 +59,7 @@ const getState = ({ getStore, setStore }) => {
 					fetch(url + "agenda/sarasempere")
 						.then(response => response.json())
 						.then(updatedData => {
+							console.log(updatedData);
 							setStore({ contactList: updatedData });
 						})
 						.catch(e => console.error(e));
